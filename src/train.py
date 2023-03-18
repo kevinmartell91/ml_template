@@ -4,6 +4,7 @@ from sklearn import ensemble
 from sklearn import preprocessing
 from sklearn import metrics 
 from . import dispatcher
+import joblib
 
 TRAINING_DATA = os.environ.get("TRAINING_DATA")
 FOLD = int(os.environ.get("FOLD"))
@@ -45,4 +46,6 @@ if __name__ == "__main__":
     print(metrics.roc_auc_score(y_tst, y_preds))
 
 
-    
+    # saving the framework
+    joblib.dump(label_encoders, f"models/{MODEL}_label_encoder.pkl")
+    joblib.dump(clf,f"models/{MODEL}.pkl")   
