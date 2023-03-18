@@ -2,10 +2,12 @@ import os
 import pandas as pd
 from sklearn import ensemble
 from sklearn import preprocessing
-from sklearn import metrics
+from sklearn import metrics 
+from . import dispatcher
 
 TRAINING_DATA = os.environ.get("TRAINING_DATA")
 FOLD = int(os.environ.get("FOLD"))
+MODEL = os.environ.get("MODEL")
 
 FOLD_MAPPING = {
     0: [1,2,3,4],
@@ -37,7 +39,7 @@ if __name__ == "__main__":
 
     # train data
     # by increasing the number of estimator would increase the auccuracy score
-    clf = ensemble.RandomForestClassifier(n_estimators=200, n_jobs=-1, verbose=2)
+    clf = dispatcher.MODELS[MODEL]
     clf.fit(trn_df,y_trn)
     y_preds = clf.predict_proba(tst_df)[:,1]
     print(metrics.roc_auc_score(y_tst, y_preds))
